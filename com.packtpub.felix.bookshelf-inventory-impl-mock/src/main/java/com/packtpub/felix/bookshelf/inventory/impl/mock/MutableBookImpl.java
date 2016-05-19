@@ -1,6 +1,5 @@
 package com.packtpub.felix.bookshelf.inventory.impl.mock;
 
-import com.google.common.base.MoreObjects;
 import com.packtpub.felix.bookshelf.inventory.api.MutableBook;
 
 public class MutableBookImpl implements MutableBook {
@@ -54,8 +53,17 @@ public class MutableBookImpl implements MutableBook {
         this.rating = rating;
     }
 
+    //TODO: investigate how third party dependencies should be exposed through a bundle
     @Override
     public String toString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append(getCategory()).append(": ");
+        buf.append(getTitle()).append(" from ").append(getAuthor());
+        buf.append(" [").append(getRating()).append(']');
+        return buf.toString();
+
+        // Temporarily commented because can't satisfy guava dependency for the bundle
+        /*
         return MoreObjects.toStringHelper(this)
                 .add("isbn", isbn)
                 .add("author", author)
@@ -63,5 +71,6 @@ public class MutableBookImpl implements MutableBook {
                 .add("category", category)
                 .add("rating", rating)
                 .toString();
+        */
     }
 }

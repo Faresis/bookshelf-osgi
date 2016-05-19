@@ -22,11 +22,6 @@
             <version>1.5.0</version>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>18.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
             <version>4.2.0</version>
@@ -48,7 +43,7 @@
                             com.packtpub.felix.bookshelf.inventory.impl.mock.activator.BookInventoryMockImplActivator
                         </Bundle-Activator>
                         <Export-Package>
-                            com.packtpub.bookshelf.inventory.impl.mock
+                            com.packtpub.felix.bookshelf.inventory.impl.mock
                         </Export-Package>
                         <Private-Package>
                             com.packtpub.felix.bookshelf.inventory.impl.mock.activator
