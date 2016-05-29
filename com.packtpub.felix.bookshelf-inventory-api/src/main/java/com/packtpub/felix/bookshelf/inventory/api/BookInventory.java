@@ -9,7 +9,6 @@ public interface BookInventory {
         TITLE_LIKE,
         CATEGORY_LIKE,
         AUTHOR_LIKE,
-        GROUP_LIKE,
         GRADE_GT,
         GRADE_LT
     }
