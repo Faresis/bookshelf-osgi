@@ -6,7 +6,7 @@
 
     <groupId>com.packtpub.felix</groupId>
     <artifactId>com.packtpub.felix.bookshelf-service-tui</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
 
     <packaging>bundle</packaging>
 
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.gogo.runtime</artifactId>
-            <version>0.6.0</version>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.packtpub.felix</groupId>
             <artifactId>com.packtpub.felix.bookshelf-service</artifactId>
-            <version>1.7.0</version>
+            <version>1.8.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

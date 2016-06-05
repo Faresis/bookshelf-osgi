@@ -1,7 +1,9 @@
 package com.packtpub.felix.bookshelf.service.tui;
 
 import com.packtpub.felix.bookshelf.inventory.api.Book;
+import com.packtpub.felix.bookshelf.inventory.api.BookAlreadyExistsException;
 import com.packtpub.felix.bookshelf.inventory.api.BookNotFoundException;
+import com.packtpub.felix.bookshelf.inventory.api.InvalidBookException;
 import com.packtpub.felix.bookshelf.service.api.BookshelfService;
 import com.packtpub.felix.bookshelf.service.api.InvalidCredentialsException;
 import org.apache.felix.service.command.Descriptor;
@@ -15,12 +17,27 @@ public class BookshelfServiceProxy {
 
     public static final String SCOPE = "book";
 
-    public static final String[] FUNCTIONS = new String[] { "search" };
+    public static final String[] FUNCTIONS = new String[]{ "add", "search" };
 
     private BundleContext bundleContext;
 
     public BookshelfServiceProxy(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
+    }
+
+    @Descriptor("Add a new book")
+    public String add(
+            @Descriptor("username") String username,
+            @Descriptor("password") String password,
+            @Descriptor("ISBN") String isbn,
+            @Descriptor("Title") String title,
+            @Descriptor("Author") String author,
+            @Descriptor("Category") String category,
+            @Descriptor("Rating (0..10)") int rating) throws InvalidCredentialsException, InvalidBookException, BookAlreadyExistsException {
+        BookshelfService service = lookupService();
+        String sessionId = service.login(username, password.toCharArray());
+        service.addBook(sessionId, isbn, title, author, category, rating);
+        return isbn;
     }
 
     @Descriptor("Search books by rating")
@@ -30,7 +47,7 @@ public class BookshelfServiceProxy {
             @Descriptor("search on attribute: rating") String attribute,
             @Descriptor("lower rating limit (inclusive)") int lower,
             @Descriptor("upper rating limit (inclusive)") int upper)
-        throws InvalidCredentialsException {
+            throws InvalidCredentialsException {
         if (!"rating".equals(attribute)) {
             throw new RuntimeException("Invalid attribute. Expected 'rating' got " + attribute);
         }
@@ -45,7 +62,7 @@ public class BookshelfServiceProxy {
                             @Descriptor("password") String password,
                             @Descriptor("Search on attribute: author, title or category") String attribute,
                             @Descriptor("match like (use % at the beginning or end of <like> for wildcard") String filter)
-        throws InvalidCredentialsException {
+            throws InvalidCredentialsException {
         BookshelfService service = lookupService();
 
         String sessionId = service.login(username, password.toCharArray());
