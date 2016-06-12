@@ -6,7 +6,7 @@
 
     <groupId>com.packtpub.felix</groupId>
     <artifactId>com.packtpub.felix.bookshelf-service-tui</artifactId>
-    <version>1.8.1</version>
+    <version>1.9.0</version>
 
     <packaging>bundle</packaging>
 
@@ -38,6 +38,11 @@
             <artifactId>com.packtpub.felix.bookshelf-inventory-api</artifactId>
             <version>1.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.ipojo.annotations</artifactId>
+            <version>1.6.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -51,15 +56,9 @@
                     <instructions>
                         <Bundle-Category>sample</Bundle-Category>
                         <Bundle-SymbolicName>${artifactId}</Bundle-SymbolicName>
-                        <Bundle-Activator>
-                            com.packtpub.felix.bookshelf.service.tui.activator.BookshelfTuiActivator
-                        </Bundle-Activator>
                         <Export-Package>
                             com.packtpub.felix.bookshelf.service.tui
                         </Export-Package>
-                        <Private-Package>
-                            com.packtpub.felix.bookshelf.service.tui.activator
-                        </Private-Package>
                     </instructions>
                     <remoteOBR>repo-rel</remoteOBR>
                     <prefixUrl>
@@ -67,6 +66,21 @@
                     </prefixUrl>
                     <ignoreLock>true</ignoreLock>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-ipojo-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>ipojo-bundle</goal>
+                        </goals>
+                        <configuration>
+                            <metadata>src/main/ipojo/meta.xml</metadata>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
