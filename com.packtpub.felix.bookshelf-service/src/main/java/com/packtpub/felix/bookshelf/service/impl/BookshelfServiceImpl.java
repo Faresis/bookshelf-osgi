@@ -3,8 +3,6 @@ package com.packtpub.felix.bookshelf.service.impl;
 import com.packtpub.felix.bookshelf.inventory.api.*;
 import com.packtpub.felix.bookshelf.service.api.BookshelfService;
 import com.packtpub.felix.bookshelf.service.api.InvalidCredentialsException;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,12 +13,9 @@ public class BookshelfServiceImpl implements BookshelfService {
 
     private String sessionId;
 
-    private final BundleContext context;
-    private final BookInventory inventory;
+    private BookInventory inventory;
 
-    public BookshelfServiceImpl(final BundleContext context) {
-        this.context = context;
-        this.inventory = lookupBookInventory();
+    public BookshelfServiceImpl() {
     }
 
     public String login(String userName, char[] password) throws InvalidCredentialsException {
@@ -116,15 +111,6 @@ public class BookshelfServiceImpl implements BookshelfService {
         criteria.put(BookInventory.SearchCriteria.GRADE_GT, Integer.toString(ratingLower));
         criteria.put(BookInventory.SearchCriteria.GRADE_LT, Integer.toString(ratingUpper));
         return inventory.searchBooks(criteria);
-    }
-
-    private BookInventory lookupBookInventory() {
-        String name = BookInventory.class.getName();
-        ServiceReference ref = this.context.getServiceReference(name);
-        if (ref == null) {
-            throw new BookInventoryNotRegisteredRuntimeException(name);
-        }
-        return (BookInventory) this.context.getService(ref);
     }
 
     protected void checkSession(String sessionId) {
