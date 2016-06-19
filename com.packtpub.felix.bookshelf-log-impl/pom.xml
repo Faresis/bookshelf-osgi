@@ -5,20 +5,44 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.packtpub.felix</groupId>
-    <artifactId>com.packtpub.felix.bookshelf-log-api</artifactId>
+    <artifactId>com.packtpub.felix.bookshelf-log-impl</artifactId>
     <version>1.10.0</version>
 
     <packaging>bundle</packaging>
 
-    <name>Bookshelf Log API</name>
-    <description>Defines the API for the Bookshelf Log Service</description>
+    <name>Bookshelf Log Service Impl</name>
+    <description>Provides implementation of Bookshelf Log API</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.packtpub.felix</groupId>
+            <artifactId>com.packtpub.felix.bookshelf-log-api</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+            <version>4.2.0</version>
+        </dependency>
     </dependencies>
-
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-ipojo-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>ipojo-bundle</goal>
+                        </goals>
+                        <configuration>
+                            <metadata>src/main/ipojo/meta.xml</metadata>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -27,23 +51,16 @@
                 <configuration>
                     <instructions>
                         <Bundle-Category>sample</Bundle-Category>
-                        <Bundle-SymbolicName>${artifactId}</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Export-Package>
-                            com.packtpub.felix.bookshelf.log.api
+                            com.packtpub.felix.bookshelf.log.impl
                         </Export-Package>
                     </instructions>
                     <remoteOBR>repo-rel</remoteOBR>
                     <prefixUrl>
                         file:////home/mykola/Development/bookshelf-osgi/releases
                     </prefixUrl>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <inherited>true</inherited>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <ignoreLock>true</ignoreLock>
                 </configuration>
             </plugin>
         </plugins>

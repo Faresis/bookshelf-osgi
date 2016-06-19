@@ -11,7 +11,7 @@
     <packaging>bundle</packaging>
 
     <name>Bookshelf Inventory API</name>
-    <description>Defines the API for the Bookshelf inventory.</description>
+    <description>Defines the API for the Bookshelf inventory</description>
 
     <dependencies>
     </dependencies>
