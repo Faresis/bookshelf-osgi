@@ -6,7 +6,7 @@
 
     <groupId>com.packtpub.felix</groupId>
     <artifactId>com.packtpub.felix.bookshelf-service</artifactId>
-    <version>1.9.0</version>
+    <version>1.10.0</version>
 
     <packaging>bundle</packaging>
 
@@ -25,6 +25,11 @@
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
             <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.packtpub.felix</groupId>
+            <artifactId>com.packtpub.felix.bookshelf-log-api</artifactId>
+            <version>1.10.0</version>
         </dependency>
     </dependencies>
 
