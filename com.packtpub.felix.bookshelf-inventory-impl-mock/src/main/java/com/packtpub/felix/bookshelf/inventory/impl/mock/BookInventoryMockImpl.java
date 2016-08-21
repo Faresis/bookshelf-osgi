@@ -1,8 +1,23 @@
 package com.packtpub.felix.bookshelf.inventory.impl.mock;
 
-import com.packtpub.felix.bookshelf.inventory.api.*;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.packtpub.felix.bookshelf.inventory.api.Book;
+import com.packtpub.felix.bookshelf.inventory.api.BookAlreadyExistsException;
+import com.packtpub.felix.bookshelf.inventory.api.BookInventory;
+import com.packtpub.felix.bookshelf.inventory.api.BookNotFoundException;
+import com.packtpub.felix.bookshelf.inventory.api.InvalidBookException;
+import com.packtpub.felix.bookshelf.inventory.api.MutableBook;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import static com.google.common.collect.ImmutableSet.copyOf;
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
 
 public class BookInventoryMockImpl implements BookInventory {
 
@@ -55,64 +70,8 @@ public class BookInventoryMockImpl implements BookInventory {
         categories.put(category, categories.get(category) - 1);
     }
 
-    //TODO: investigate how third party dependencies should be exposed through a bundle
     public Set<String> searchBooks(final Map<SearchCriteria, String> criteria) {
-        LinkedList<Book> books = new LinkedList<Book>(booksByIsbn.values());
-
-        for(Map.Entry<SearchCriteria, String> criterion : criteria.entrySet()) {
-            for (Iterator<Book> i = books.iterator(); i.hasNext();) {
-                Book book = i.next();
-
-                switch (criterion.getKey()) {
-                    case AUTHOR_LIKE:
-                        if (!checkStringMatch(book.getAuthor(), criterion.getValue())) {
-                            i.remove();
-                            continue;
-                        }
-                        break;
-                    case ISBN_LIKE:
-                        if (!checkStringMatch(book.getIsbn(), criterion.getValue())) {
-                            i.remove();
-                            continue;
-                        }
-                        break;
-                    case CATEGORY_LIKE:
-                        if (!checkStringMatch(book.getCategory(), criterion.getValue())) {
-                            i.remove();
-                            continue;
-                        }
-                        break;
-                    case TITLE_LIKE:
-                        if (!checkStringMatch(book.getTitle(), criterion.getValue())) {
-                            i.remove();
-                            continue;
-                        }
-                        break;
-                    case GRADE_GT:
-                        if (!checkIntegerGreater(book.getRating(), criterion.getValue())) {
-                            i.remove();
-                            continue;
-                        }
-                        break;
-                    case GRADE_LT:
-                        if (!checkIntegerSmaller(book.getRating(), criterion.getValue())) {
-                            i.remove();
-                            continue;
-                        }
-                        break;
-                }
-            }
-        }
-
-        HashSet<String> isbns = new HashSet<String>();
-        for(Book book : books) {
-            isbns.add(book.getIsbn());
-        }
-        return isbns;
-
-        // Temporarily commented because can't satisfy guava dependency for the bundle
-        /*
-        return ImmutableSet.copyOf(transform(filter(ImmutableList.copyOf(booksByIsbn.values()), new Predicate<MutableBook>() {
+        return copyOf(transform(filter(booksByIsbn.values(), new Predicate<MutableBook>() {
             public boolean apply(MutableBook book) {
                 for (Map.Entry<SearchCriteria, String> criterion : criteria.entrySet()) {
                     switch (criterion.getKey()) {
@@ -155,7 +114,6 @@ public class BookInventoryMockImpl implements BookInventory {
                 return book.getIsbn();
             }
         }));
-        */
     }
 
     private static boolean checkIntegerGreater(int actual, String criteria) {

@@ -6,7 +6,7 @@
 
     <groupId>com.packtpub.felix</groupId>
     <artifactId>com.packtpub.felix.bookshelf-inventory-impl-mock</artifactId>
-    <version>1.9.0</version>
+    <version>1.9.1</version>
 
     <packaging>bundle</packaging>
 
@@ -25,6 +25,11 @@
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
             <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
         </dependency>
     </dependencies>
 
@@ -57,6 +62,11 @@
                         <Export-Package>
                             com.packtpub.felix.bookshelf.inventory.impl.mock
                         </Export-Package>
+                        <Import-Package>
+                            com.packtpub.felix.bookshelf.inventory.api,sun.misc.*;resolution:=optional,javax.annotation.*
+                        </Import-Package>
+                        <Embed-Dependency>guava</Embed-Dependency>
+                        <Embed-Directory>OSGI-INF/lib</Embed-Directory>
                     </instructions>
                     <remoteOBR>repo-rel</remoteOBR>
                     <prefixUrl>
